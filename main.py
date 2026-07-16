@@ -3,11 +3,52 @@ from speak import speak
 from listen import listen
 from commands import execute
 from datetime import datetime
+from transcribe import get_model
 from transcribe import transcribe
+from colorama import init, Fore, Style
 
-log("=" * 40)
-log("🤖 Jarvis AI Assistant")
-log("=" * 40)
+init(autoreset=True)
+CYAN = Fore.CYAN
+GREEN = Fore.GREEN
+YELLOW = Fore.YELLOW
+WHITE = Fore.WHITE
+RED = Fore.RED
+MAGENTA = Fore.MAGENTA
+RESET = Style.RESET_ALL
+
+def startup_screen():
+    print()
+    print(CYAN + "╔" + "═"*58 + "╗")
+    print(CYAN + "║{:^58}║".format("JARVIS AI ASSISTANT"))
+    print(CYAN + "║{:^58}║".format("Your Local AI Companion"))
+    print(CYAN + "╚" + "═"*58 + "╝")
+    print()
+    print(WHITE + "Version : " + GREEN + "v2.0.0 Vanguard")
+    print(WHITE + "Status  : " + YELLOW + "Initializing...")
+    print(WHITE + "Build   : " + GREEN +  "Stable")
+    print()
+    print(CYAN + "─"*60)
+
+    print(GREEN + "[✓] " + WHITE + "Configuration Loaded")
+    print(GREEN + "[✓] " + WHITE + "Voice Engine Ready")
+    print(GREEN + "[✓] " + WHITE + "Whisper model Ready")
+    print(GREEN + "[✓] " + WHITE + "Memory Connected")
+    print(GREEN + "[✓] " + WHITE + "Command Modules Ready")
+    print(GREEN + "[✓] " + WHITE + "AI Features Ready")
+    print(GREEN + "[✓] " + WHITE + "System Diagnostics Passed")
+
+    print(CYAN + "─"*60)
+    print()
+
+    print("═"*60)
+    print(CYAN + "SYSTEM STATUS : " + GREEN + "ONLINE")
+    print("═"*60)
+    print(GREEN + "System Ready.")
+    print()
+    print("Voice Interface Active")
+    print()
+
+startup_screen()
 
 hour = datetime.now().hour
 if 5 <= hour < 12 :

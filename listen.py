@@ -1,10 +1,14 @@
 import sounddevice as sd
 import soundfile as sf
+from colorama import init, Fore, Style
+init(autoreset=True)
+YELLOW = Fore.YELLOW
+CYAN = Fore.CYAN
 
 from config import MIC_DEVICE, SAMPLE_RATE, DURATION
 
 def listen():
-    print("🎤 Listening...")
+    print(CYAN + "🎤" +" " + YELLOW + "Listening...")
 
     recording = sd.rec(
         int(DURATION * SAMPLE_RATE),

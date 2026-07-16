@@ -47,6 +47,8 @@ def ask_ai(question):
         messages[:] = [messages[0]] + messages[-MAX_HISTORY:]
 
     end = time.time()
+    
+    print(f"{answer}")
 
     print(f"AI took {end-start:.2f} seconds")
 

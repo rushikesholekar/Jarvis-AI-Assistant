@@ -1,4 +1,3 @@
-from email.mime import text
 
 from faster_whisper import WhisperModel
 
@@ -9,7 +8,6 @@ def get_model():
     global model
 
     if model is None:
-        print("Loading Whisper model...")
         model = WhisperModel(
             "small",
             device="cpu",

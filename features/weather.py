@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 import requests
-import requests
+from logger import log
 
 load_dotenv()
 def get_weather(city):
@@ -31,7 +31,7 @@ def get_weather(city):
             f"The humidity is {humidity} percent, "
             f"and the wind speed is {wind_speed} meters per second."
         )
-
+        log(f"{weather}")
         return weather
 
     except Exception as e:

@@ -1,6 +1,7 @@
 from features.memory import save_memory, get_memory, delete_memory
 from features.ai import extract_memory
 from utils.text_utils import normalize_key
+from logger import log
 import string
 import re
 
@@ -35,6 +36,7 @@ def handle_regex_memory(command):
 
         save_memory(key, value)
 
+        log(f"I'll remember that your {key} is {value}.")
         return f"I'll remember that your {key} is {value}."
     
     elif command.startswith("what is"):
@@ -47,7 +49,8 @@ def handle_regex_memory(command):
 
         if value is None:
             return f"I don't know your {key} yet."
-
+        
+        log(f"Your {key} is {value}.")
         return f"Your {key} is {value}."
     
     elif command.startswith("forget"):
@@ -59,8 +62,10 @@ def handle_regex_memory(command):
         deleted = delete_memory(key)
 
         if deleted:
+            log(f"I forgot your {key}")
             return f"I forgot your {key}"
         else:
+            log(f"I don't have a memory about {key}")
             return f"I don't have a memory about {key}"
             
 def handle_ai_memory(command):
@@ -74,5 +79,5 @@ def handle_ai_memory(command):
         return None
 
     save_memory(key, value)
+    log(f"I'll remember that your {key} is {value}.")
     return f"I'll remember that your {key} is {value}."
-        

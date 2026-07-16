@@ -1,24 +1,29 @@
 import webbrowser
 from urllib.parse import quote
 from speak import speak
+from logger import log
 
 def handle_browser(command):
     if "open youtube" in command:
+        log("Opening Youtube...")
         speak("Opening Youtube")
         webbrowser.open("https://www.youtube.com")
         return True
 
     elif "google" in command:
+        log("Opening Google...")
         speak("opening Google")
         webbrowser.open("https://www.google.com")
         return True
 
     elif "github" in command:
+        log("Opening Github...")
         speak("opening github")
         webbrowser.open("https://www.github.com")
         return True
 
     elif "chat gpt" in command:
+        log("Opening Chatgpt...")
         speak("opening chatgpt")
         webbrowser.open("https://www.chatgpt.com")
         return True

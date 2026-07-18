@@ -28,3 +28,9 @@ memory.json
 # OS files
 Thumbs.db
 .DS_Store
+
+#Jarvis private files
+PRIVATE-HQ/
+
+# Testing
+Test/

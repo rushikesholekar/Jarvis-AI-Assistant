@@ -12,6 +12,11 @@ def handle_memory(command):
     if response:
         return response
     
+    response = handle_statement_memory(command)
+    
+    if response:
+        return response
+    
     response = handle_ai_memory(command)
 
     if response:
@@ -67,6 +72,38 @@ def handle_regex_memory(command):
         else:
             log(f"I don't have a memory about {key}")
             return f"I don't have a memory about {key}"
+        
+def handle_statement_memory(command):
+    print("[DEBUG] handle_statement_memory called")
+
+    patterns = [
+    (r"my favorite color is (.+)", "favorite color"),
+    (r"my name is (.+)", "name"),
+    (r"i live in (.+)", "location"),
+    (r"i study (.+)", "education"),
+    (r"i am learning (.+)", "learning"),
+    (r"my birthday is (.+)", "birthday"),
+        ]
+
+    for pattern, key in patterns:
+
+        match = re.search(
+            pattern,
+            command,
+            re.IGNORECASE
+    )
+
+        if match:
+
+         key = normalize_key(key)
+         value = match.group(1).strip()
+
+         save_memory(key, value)
+
+         log(f"I'll remember that your {key} is {value}.")
+         return f"I'll remember that your {key} is {value}."
+
+    return None
             
 def handle_ai_memory(command):
     

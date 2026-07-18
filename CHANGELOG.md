@@ -1,5 +1,7 @@
 # 📜 CHANGELOG
 
+> This file follows the Keep a Changelog format.
+
 All notable changes to Jarvis AI Assistant are documented here.
 
 ---
@@ -30,11 +32,11 @@ Released: July 2026
 
 # v2.1.0 — Sentinel
 
-Status: In Development
+Status: 🚧 Unreleased
 
-Planned
+## Planned
 
-- Smarter AI
+- Smarter AI conversations
 - Plugin architecture
-- Better memory
-- Improved desktop automation
+- Improved memory system
+- Enhanced desktop automation

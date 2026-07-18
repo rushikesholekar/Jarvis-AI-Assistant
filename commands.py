@@ -7,7 +7,7 @@ from click import command
 from logger import log
 from speak import speak
 from features.ai import ask_ai
-from config import IGNORE_COMMANDS
+from config import NOISE_COMMANDS
 from utils.text_utils import normalize_command
 
 
@@ -22,8 +22,9 @@ def execute(command):
     
     command = normalize_command(command)
 
-    if command in IGNORE_COMMANDS:
-        return
+    for phrase in NOISE_COMMANDS:
+        if command == phrase:
+            return
     
     if handle_apps(command):
         return

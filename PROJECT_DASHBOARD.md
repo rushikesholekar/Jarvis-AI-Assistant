@@ -66,25 +66,34 @@ Transform Jarvis from a voice automation assistant into a smarter AI companion.
 
 ---
 
-# 🗺️ Release Timeline
+# 🗺️ Roadmap
 
-| Version | Codename | Status |
-|----------|----------|--------|
-| v1.0.0 | Genesis | ✅ Released |
-| v2.0.0 | Vanguard | ✅ Released |
-| v2.1.0 | Sentinel | 🚧 In Development |
-| v3.0.0 | Nexus | 🔒 Planned |
-| v4.0.0 | Ascension | 🔒 Planned |
-| v5.0.0 | JARVIS | 🔒 Vision |
+For future versions and long-term planning, see:
+
+📄 ROADMAP.md
 
 ---
 
-# 📂 Project Documents
+# 🎯 Current Sprint
 
-| Document | Description |
-|----------|-------------|
-| README.md | Project overview |
-| ROADMAP.md | Future development plans |
-| CHANGELOG.md | Release history |
-| CONTRIBUTING.md | Contribution guide |
-| LICENSE | MIT License |
+Version
+
+v2.1.0 — Sentinel
+
+Sprint Goal
+
+Transform Jarvis into an intelligent desktop AI assistant.
+
+Current Focus
+
+🟨 Improving AI Conversations
+
+🟨 Plugin Architecture
+
+🟨 Smarter Memory
+
+🟨 Desktop Automation
+
+Completion
+
+10%

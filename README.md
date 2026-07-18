@@ -46,7 +46,7 @@ Private AI • Intelligent Automation • Built for the Future
 
 **Version:** `v2.0.0`
 
-**Codename:** `Vanguard • Initial Public Release`
+**Codename:** `Vanguard`
 
 **Release Status:** `🟢 Stable`
 
@@ -56,11 +56,9 @@ Private AI • Intelligent Automation • Built for the Future
 
 # 🎯 Mission
 
-Jarvis AI Assistant is a modular AI voice assistant built to explore modern artificial intelligence through practical software engineering.
+Jarvis AI Assistant is a privacy-first, modular AI assistant built to explore modern artificial intelligence through practical software engineering.
 
-Designed with privacy, scalability, and intelligent automation in mind, Jarvis combines speech recognition, local language models, persistent memory, and desktop automation into a single evolving platform.
-
-Rather than being a one-time project, Jarvis is designed to evolve continuously through new capabilities, intelligent automation, and modern AI technologies.
+Combining local language models, speech recognition, persistent memory, and desktop automation, Jarvis is designed as a long-term platform that evolves through intelligent features rather than isolated prototypes.
 
 ---
 
@@ -328,48 +326,59 @@ Jarvis follows a modular architecture where every major capability is isolated i
 
 ---
 
+# 📈 Project Status
+
+Current Version
+
+v2.0.0 — Vanguard
+
+Development
+
+🟢 Active
+
+Current Sprint
+
+v2.1.0 — Sentinel
+
+Project Dashboard
+
+📄 PROJECT_DASHBOARD.md
+
+Roadmap
+
+📄 ROADMAP.md
+
+Release Notes
+
+📄 CHANGELOG.md
+
+---
+
 # 🗺️ Roadmap
 
-## ✅ Vanguard v2.0.0 *(Current Release)*
+For the complete development roadmap, see:
 
-- Professional branding
-- Voice interaction
-- Local AI integration
-- Persistent memory
-- Desktop automation
-- GitHub release
+📄 ROADMAP.md
 
 ---
 
-## 🎯 Sentinel v2.1
+## Current Development
 
-- Wake word detection
-- Better memory management
-- Faster command routing
-- Improved logging
-- Performance optimizations
+### 🚧 v2.1.0 — Sentinel
 
----
+Current Focus
 
-## 🚀 Orion v2.2
-
-- Plugin system
-- Smart reminders
-- Calendar integration
-- Enhanced AI conversations
-- Better desktop control
+- Smarter AI conversations
+- Better memory retrieval
+- Plugin architecture
+- Improved desktop automation
 
 ---
 
-## 🌌 Genesis v3.0
+Future versions including **Nexus**, **Ascension**, and **JARVIS** are documented in the dedicated roadmap.
 
-- Modern GUI
-- Vision capabilities
-- Face recognition
-- Cross-platform support
-- Advanced AI reasoning
 
----
+
 
 # 🤝 Contributing
 

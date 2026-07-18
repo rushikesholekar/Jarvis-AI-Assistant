@@ -14,12 +14,18 @@ MAX_HISTORY = 20
 DEFAULT_CITY = "Mumbai"
 
 # ignore words
-IGNORE_COMMANDS = {
+NOISE_COMMANDS = {
     "",
     "you",
-    "thank you",
+
+    "thank",
     "thanks",
+    "thank you",
     "thank you very much",
+
     "ok",
     "okay",
+    "okay thanks",
+    "thanks man",
+    "thank u",
 }

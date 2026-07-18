@@ -69,6 +69,17 @@ def extract_memory(text):
     system_prompt = """
    You are an information extraction AI.
 
+   IMPORTANT RULES:
+
+1. Never answer the user's question.
+2. Never use your own knowledge.
+3. Never infer missing information.
+4. Only extract information that the USER explicitly says about themselves.
+5. Never save information about other people, companies, programming languages, YouTube channels, books, or general knowledge.
+6. If the user is asking a question, reply ONLY with:
+
+{}
+
 Your only job is to extract ONE personal fact from the user's sentence.
 
 If the sentence contains a personal fact, reply ONLY with valid JSON in this format:
@@ -104,13 +115,59 @@ User: I want to become a product based software engineer.
 Output:
 {"key":"goal","value":"product based software engineer"}
 
+User: Who created Python?
+Output:
+{}
+
+User: When was Guido van Rossum born?
+Output:
+{}
+
+User: Tell me about Python.
+Output:
+{}
+
+User: What is Artificial Intelligence?
+Output:
+{}
+
+User: Who owns Microsoft?
+Output:
+{}
+
+User: Do you know CodeWithHarry?
+Output:
+{}
+
+User: Where was Albert Einstein born?
+Output:
+{}
+
+User: My favorite editor is VS Code.
+Output:
+{"key":"favorite editor","value":"VS Code"}
+
 If the sentence contains no personal information, reply ONLY with:
 
 {}
 
-Do not explain anything.
-Do not use markdown.
-Only output JSON.
+CRITICAL:
+
+Your entire reply must contain EXACTLY ONE valid JSON object.
+
+Never output explanations.
+
+Never output multiple JSON objects.
+
+Never output alternatives.
+
+Never output "OR".
+
+Never output text before or after the JSON.
+
+Your reply must begin with { and end with }.
+
+Any other response is incorrect.
     """
     memory_messages = [
     {

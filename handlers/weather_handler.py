@@ -1,6 +1,6 @@
 from features.weather import get_weather
-from speak import speak
-from config import DEFAULT_CITY
+from core.speak import speak
+from app.config import DEFAULT_CITY
 
 def handle_weather(command):
     if "weather" in command or "climate" in command or "temperature" in command:

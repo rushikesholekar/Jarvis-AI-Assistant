@@ -1,6 +1,6 @@
 from datetime import datetime
 import re
-from speak import speak
+from core.speak import speak
 
 def handle_datetime(command):
     if "time" in command and "date" in command:

@@ -1,7 +1,7 @@
 from features.memory import save_memory, get_memory, delete_memory
 from features.ai import extract_memory
 from utils.text_utils import normalize_key
-from logger import log
+from app.logger import log
 import string
 import re
 

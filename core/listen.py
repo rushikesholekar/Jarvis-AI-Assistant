@@ -5,7 +5,7 @@ init(autoreset=True)
 YELLOW = Fore.YELLOW
 CYAN = Fore.CYAN
 
-from config import MIC_DEVICE, SAMPLE_RATE, DURATION
+from app.config import MIC_DEVICE, SAMPLE_RATE, DURATION
 
 def listen():
     print(CYAN + "🎤" +" " + YELLOW + "Listening...")

@@ -1,8 +1,8 @@
 from urllib import response
 
-from config import AI_MODEL, MAX_HISTORY
+from app.config import AI_MODEL, MAX_HISTORY
 from ollama import chat
-from logger import log
+from app.logger import log
 import json
 import time
 import re

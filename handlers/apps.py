@@ -1,6 +1,6 @@
 import subprocess
-from speak import speak
-from logger import log
+from core.speak import speak
+from app.logger import log
 
 def handle_apps(command):
     if "notepad" in command:

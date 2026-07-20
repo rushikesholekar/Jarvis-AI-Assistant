@@ -1,10 +1,10 @@
-from logger import log
-from speak import speak
-from listen import listen
+from app.logger import log
+from core.speak import speak
+from core.listen import listen
 from commands import execute
 from datetime import datetime
-from transcribe import get_model
-from transcribe import transcribe
+from core.transcribe import get_model
+from core.transcribe import transcribe
 from colorama import init, Fore, Style
 
 init(autoreset=True)

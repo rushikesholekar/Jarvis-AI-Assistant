@@ -3,7 +3,7 @@ import edge_tts
 import os
 from playsound3 import playsound
 
-from config import VOICE
+from app.config import VOICE
 
 async def _generate_voice(text):
     communicate = edge_tts.Communicate(text, VOICE)

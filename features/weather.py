@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 import requests
-from logger import log
+from app.logger import log
 
 load_dotenv()
 def get_weather(city):

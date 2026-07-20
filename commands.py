@@ -4,10 +4,10 @@ import random
 from click import command
 
 
-from logger import log
-from speak import speak
+from app.logger import log
+from core.speak import speak
 from features.ai import ask_ai
-from config import NOISE_COMMANDS
+from app.config import NOISE_COMMANDS
 from utils.text_utils import normalize_command
 
 

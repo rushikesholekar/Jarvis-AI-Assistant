@@ -1,48 +1,32 @@
 import subprocess
-from core.speak import speak
+
 from app.logger import log
+from core.speak import speak
 
-def handle_apps(command):
-    if "notepad" in command:
-        log("Opening Notepad")
-        speak("Opening Notepad")
-        subprocess.Popen("notepad.exe")
-        return True
+APPLICATIONS = (
+    (("notepad",), "Notepad", ["notepad.exe"]),
+    (("calculator",), "Calculator", ["calc.exe"]),
+    (("file explorer",), "File Explorer", ["explorer.exe"]),
+    (("paint",), "Paint", ["mspaint.exe"]),
+    (("command prompt",), "Command Prompt", ["cmd.exe"]),
+    (("visual studio code", "vs code"), "Visual Studio Code", ["code"]),
+    (("chrome",), "Google Chrome", [r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"]),
+)
 
-    elif "calculator" in command:
-        log("Opening Calculator")
-        speak("Opening Calculator")
-        subprocess.Popen("calc.exe")
-        return True
 
-    elif "file explorer" in command:
-        log("Opening File Explorer")
-        speak("Opening File Explorer")
-        subprocess.Popen("explorer.exe")
-        return True
+def handle_apps(command: str) -> bool:
+    """Launch only applications declared in the explicit allowlist above."""
+    for phrases, name, executable in APPLICATIONS:
+        if not any(phrase in command for phrase in phrases):
+            continue
 
-    elif "paint" in command:
-        log("Opening Paint")
-        speak("Opening Paint")
-        subprocess.Popen("mspaint.exe")
-        return True
-
-    elif "command prompt" in command:
-        log("Opening Command Prompt")
-        speak("opening command prompt")
-        subprocess.Popen("cmd.exe")
-        return True
-
-    elif "visual studio code" in command or "vs code" in command:
-        log("Opening Visual Studio Code")
-        speak("Opening visual studio code")
-        subprocess.Popen("code", shell=True)
-        return True
-    
-    elif "chrome" in command:
-        log("Opening Google Chrome")
-        speak("Opening google chrome")
-        subprocess.Popen(r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
+        log(f"Opening {name}")
+        speak(f"Opening {name}")
+        try:
+            subprocess.Popen(executable)
+        except FileNotFoundError:
+            log(f"{name} was not found on this computer.")
+            speak(f"I could not find {name} on this computer.")
         return True
 
     return False

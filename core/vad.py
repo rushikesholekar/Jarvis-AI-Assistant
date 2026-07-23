@@ -1,75 +1,60 @@
-import sounddevice as sd
-import soundfile as sf
+"""Voice activity detection for a single user command."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
 import numpy as np
-from silero_vad import load_silero_vad
+import soundfile as sf
 import torch
+from silero_vad import load_silero_vad
 
-
-SAMPLE_RATE = 16000
-CHANNELS = 1
-
-SPEECH_THRESHOLD = 0.20
-MAX_SILENCE = 50
+from app.config import (
+    BLOCK_SIZE,
+    MAX_RECORDING_SECONDS,
+    SAMPLE_RATE,
+    SILENCE_SECONDS,
+    SPEECH_THRESHOLD,
+)
+from core.audio_manager import get_chunk
 
 model = load_silero_vad()
 
-def record_until_silence():
-    """
-    Records audio until the user stops speaking.
-    """
 
+def record_until_silence(output_file: str | Path = "temp.wav") -> str:
+    """Record one command and stop when speech is followed by silence."""
     print("Listening for speech...")
+    frames: list[np.ndarray] = []
+    speech_started = False
+    silence_samples = 0
+    max_chunks = max(1, int(MAX_RECORDING_SECONDS * SAMPLE_RATE / BLOCK_SIZE))
+    max_silence_samples = int(SILENCE_SECONDS * SAMPLE_RATE)
 
-    DEVICE = 15
+    for _ in range(max_chunks):
+        chunk = get_chunk()
+        frames.append(chunk)
 
-    frames = []
+        for start in range(0, len(chunk), 512):
+            piece = chunk.flatten()[start : start + 512]
+            if len(piece) < 512:
+                continue
 
-    silence_chunks = 0
-
-    with sd.InputStream(
-        samplerate=SAMPLE_RATE,
-        channels=CHANNELS,
-        dtype="float32",
-        blocksize=512,
-        device=DEVICE
-    ) as stream:
-
-        print("Recording...")
-
-        for i in range(200):
-
-            audio, overflow = stream.read(512)
-
-            frames.append(audio)
-
-            audio_tensor = torch.from_numpy(audio.flatten())
-
-            speech_probability = model(audio_tensor, SAMPLE_RATE).item()
+            probability = model(torch.from_numpy(piece).unsqueeze(0), SAMPLE_RATE).item()
             
-            print(f"Speech probability: {speech_probability:.3f}")
+            if probability >= SPEECH_THRESHOLD:
+                speech_started = True
+                silence_samples = 0
+            elif speech_started:
+                silence_samples += len(piece)
 
-            if speech_probability >= SPEECH_THRESHOLD:
-                silence_chunks = 0
-            else:
-                silence_chunks += 1
+            if speech_started and silence_samples >= max_silence_samples:
+                audio = np.concatenate(frames, axis=0)
+                sf.write(output_file, audio, SAMPLE_RATE)
+                return str(output_file)
 
-            if silence_chunks >= MAX_SILENCE:
-                print("Silence detected. Stopping recording...")
-                break
-
-
-    print("Finished")
+    if not speech_started:
+        raise TimeoutError("No speech was detected before the recording limit.")
 
     audio = np.concatenate(frames, axis=0)
-
-    print("Recording finished.")
-
-    sf.write(
-    "temp.wav",
-    audio,
-    SAMPLE_RATE
-    )
-
-    print("Saved as temp.wav")
-
-record_until_silence()
+    sf.write(output_file, audio, SAMPLE_RATE)
+    return str(output_file)

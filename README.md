@@ -193,7 +193,7 @@ Create a `.env` file if required and add your API keys for optional features suc
 ### 7. Run Jarvis
 
 ```bash
-python main.py
+python -m app.main
 ```
 
 ---
@@ -203,7 +203,7 @@ python main.py
 Launch Jarvis:
 
 ```bash
-python main.py
+python -m app.main
 ```
 
 Once running, simply speak naturally.

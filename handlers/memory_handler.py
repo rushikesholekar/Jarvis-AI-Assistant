@@ -2,7 +2,7 @@ from features.memory import save_memory, get_memory, delete_memory
 from features.ai import extract_memory
 from utils.text_utils import normalize_key
 from app.logger import log
-import string
+from core.intents import is_personal_memory_candidate
 import re
 
 def handle_memory(command):
@@ -44,9 +44,9 @@ def handle_regex_memory(command):
         log(f"I'll remember that your {key} is {value}.")
         return f"I'll remember that your {key} is {value}."
     
-    elif command.startswith("what is"):
+    elif command.startswith("what is my "):
 
-        key = command.replace("what is", "", 1)
+        key = command.replace("what is my", "", 1)
 
         key = normalize_key(key)
 
@@ -74,7 +74,6 @@ def handle_regex_memory(command):
             return f"I don't have a memory about {key}"
         
 def handle_statement_memory(command):
-    print("[DEBUG] handle_statement_memory called")
 
     patterns = [
     (r"my favorite color is (.+)", "favorite color"),
@@ -106,7 +105,10 @@ def handle_statement_memory(command):
     return None
             
 def handle_ai_memory(command):
-    
+    """Use LLM extraction only for likely user facts, never every question."""
+    if not is_personal_memory_candidate(command):
+        return None
+
     memory = extract_memory(command) or {}
 
     key = normalize_key(memory.get("key", ""))

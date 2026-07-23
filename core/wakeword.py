@@ -1,67 +1,58 @@
-import sounddevice as sd
+"""Wake-word detection with explicit model validation and model reuse."""
+
+from __future__ import annotations
+
 import numpy as np
-import queue
-
-print(sd.query_devices(15))
-
+import time
 from openwakeword.model import Model
 
+from app.config import WAKE_WORD_MODEL_PATH, WAKE_WORD_THRESHOLD
+from core.audio_manager import clear_queue, get_chunk, start
+from core.speak import speak
 
-SAMPLE_RATE = 16000
-BLOCK_SIZE = 1280
-
-
-audio_queue = queue.Queue()
-
-
-print("Loading Jarvis wake word model...")
-
-model = Model(
-    wakeword_models=[
-        "hey_jarvis_v0.1.onnx"
-    ],
-    inference_framework="onnx"
-)
-
-print("Jarvis wake word ready!")
-print("Listening for 'Hey Jarvis'...")
+_model: Model | None = None
 
 
-def audio_callback(indata, frames, time, status):
-
-    if status:
-        print("Audio status:", status)
-
-    audio_queue.put(indata.copy())
+class WakeWordConfigurationError(RuntimeError):
+    """Raised when Jarvis has no usable custom wake-word model."""
 
 
-with sd.InputStream(
-    device=15,
-    samplerate=SAMPLE_RATE,
-    channels=1,
-    dtype="float32",
-    blocksize=BLOCK_SIZE,
-    callback=audio_callback
-):
+def _get_model() -> Model:
+    global _model
+    if _model is None:
+        if not WAKE_WORD_MODEL_PATH.is_file():
+            raise WakeWordConfigurationError(
+                "Wake-word model not found at "
+                f"'{WAKE_WORD_MODEL_PATH}'. Set JARVIS_WAKE_WORD_MODEL to a valid .onnx file."
+            )
+        _model = Model(
+            wakeword_models=[str(WAKE_WORD_MODEL_PATH)],
+            inference_framework="onnx",
+        )
+    return _model
+
+
+def wait_for_wakeword() -> None:
+    start()
+    model = _get_model()
+    
+    print("Listening for the Jarvis wake word...")
 
     while True:
+        audio = np.squeeze(get_chunk())
+        audio = np.clip(audio * 32767, -32768, 32767).astype(np.int16)
 
-        audio = audio_queue.get()
+        predictions = model.predict(audio)
 
-        audio = np.squeeze(audio)
+        score = float(next(iter(predictions.values())))
 
-        audio = (audio * 32767).astype(np.int16)
+        if score >= WAKE_WORD_THRESHOLD:
+            print("Wake word detected.")
+            model.reset() 
+            clear_queue()
+            speak("Yes?")
+            return
 
-        prediction = model.predict(audio)
 
-        score = prediction["hey_jarvis_v0.1.onnx"]
-
-        # Only show meaningful scores
-        if score > 0.05:
-            print(f"Wake confidence: {score:.3f}")
-
-        # Wake Jarvis
-        if score > 0.60:
-            print("\n🎉 Wake word detected!")
-            print("Good morning Commander!\n")
-            break
+if __name__ == "__main__":
+    wait_for_wakeword()

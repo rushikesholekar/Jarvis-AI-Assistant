@@ -1,4 +1,5 @@
 import string
+import re
 
 FILLER_WORDS = {
     "please",
@@ -9,16 +10,28 @@ FILLER_WORDS = {
     "hey",
     "jarvis",
     "sir",
-    "kindly"
+    "kindly",
+    "just",
+    "the",
+    "a",
+    "an",
+    "for",
+    "to"
 }
 
 def normalize_command(command):
     command = command.lower().strip()
-    command = command.strip(string.punctuation + " ")
+    command = command.translate(
+        str.maketrans("", "", string.punctuation)
+    )
     words = command.split()
     words = [word for word in words if word not in FILLER_WORDS]
     command = " ".join(words)
     return command
+
+def remove_wake_word(command):
+    pattern = r'^(hey|hi|hello)?\s*jarvis[,.! ]*'
+    return re.sub(pattern, '', command, flags=re.IGNORECASE).strip()
 
 def normalize_key(key):
     key = key.lower().strip()

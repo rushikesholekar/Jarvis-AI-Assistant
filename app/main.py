@@ -1,11 +1,13 @@
 from app.logger import log
-from core.speak import speak
-from core.listen import listen
 from commands import execute
+from core.speak import speak
 from datetime import datetime
-from core.transcribe import get_model
 from core.transcribe import transcribe
 from colorama import init, Fore, Style
+from core.vad import record_until_silence
+from core.wakeword import WakeWordConfigurationError, wait_for_wakeword
+from utils.text_utils import remove_wake_word
+from utils.text_utils import normalize_command
 
 init(autoreset=True)
 CYAN = Fore.CYAN
@@ -48,33 +50,43 @@ def startup_screen():
     print("Voice Interface Active")
     print()
 
-startup_screen()
+def greet() -> None:
+    hour = datetime.now().hour
+    if 5 <= hour < 12:
+        speak("Good morning. I am Jarvis. How can I help?")
+    elif 12 <= hour < 17:
+        speak("Good afternoon. I am Jarvis. How can I help?")
+    else:
+        speak("Good evening. I am Jarvis. How can I help?")
 
-hour = datetime.now().hour
-if 5 <= hour < 12 :
-    speak("Good morning,sir!I am Jarvis.How can I help you today?")
 
-elif 12 <= hour < 17:
-    speak("Good afternoon,sir!I am Jarvis.How can I help you today?")
+def run() -> None:
+    startup_screen()
+    greet()
 
-elif 17 <= hour < 21:
-    speak("Good evening,sir!I am Jarvis.How can I help you today?")
+    while True:
+        try:
+            wait_for_wakeword()
+            audio = record_until_silence()
+            command = remove_wake_word(transcribe(audio))
+            log(f"You: {command}")
+            if command:
+                execute(command)
+        except TimeoutError:
+            log("No speech detected; returning to wake-word mode.")
+        except WakeWordConfigurationError as error:
+            log(str(error))
+            break
+        except KeyboardInterrupt:
+            print("\nJarvis stopped.")
+            break
+        except Exception as error:
+            log(f"Voice pipeline error: {error}")
+            speak("I had a voice-system error. Please try again.")
 
-else:
-      speak("Good night!")
 
-while True:
-    audio = listen()
-
-    command = transcribe(audio)
-
-    log(f"You: {command}")
-    
-    if command:
-        execute(command)
-
-    if command == "":
-        continue
+if __name__ == "__main__":
+    run()
 
 
     

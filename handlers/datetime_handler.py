@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 from core.speak import speak
+from app.logger import log, success, warning, errors
 
 def handle_datetime(command):
     if "time" in command and "date" in command:
@@ -10,7 +11,6 @@ def handle_datetime(command):
         hour = now.strftime("%I").lstrip("0")
         minute = now.strftime("%M")
         period = now.strftime("%p")
-        print(f"Today is {day_string}, {date_string}, and the current time is {hour} {minute} {period}.")
         speak(f"Today is {day_string}, {date_string}, and the current time is {hour} {minute} {period}.")
         return True
     

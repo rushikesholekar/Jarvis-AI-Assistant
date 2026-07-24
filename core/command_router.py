@@ -5,7 +5,7 @@ from __future__ import annotations
 import random
 
 from app.config import NOISE_COMMANDS
-from app.logger import log
+from app.logger import log, success, warning, errors, listening
 from core.intents import Intent, RouteResult
 from core.speak import speak
 from features.ai import ask_ai
@@ -67,7 +67,7 @@ def route_command(raw_command: str) -> RouteResult:
     try:
         answer = ask_ai(original)
     except Exception as error:
-        log(f"AI error: {error}")
+        errors(f"AI error: {error}")
         answer = "Sorry, I could not reach my AI brain."
 
     speak(answer)

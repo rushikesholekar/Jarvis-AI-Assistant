@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from app.logger import log, warning, success, errors, listening
+
 from pathlib import Path
 
 import numpy as np
@@ -23,7 +25,7 @@ model = load_silero_vad()
 
 def record_until_silence(output_file: str | Path = "temp.wav") -> str:
     """Record one command and stop when speech is followed by silence."""
-    print("Listening for speech...")
+    listening("Listening for speech...")
     frames: list[np.ndarray] = []
     speech_started = False
     silence_samples = 0
@@ -40,7 +42,7 @@ def record_until_silence(output_file: str | Path = "temp.wav") -> str:
                 continue
 
             probability = model(torch.from_numpy(piece).unsqueeze(0), SAMPLE_RATE).item()
-            
+
             if probability >= SPEECH_THRESHOLD:
                 speech_started = True
                 silence_samples = 0

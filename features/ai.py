@@ -2,7 +2,7 @@ from urllib import response
 
 from app.config import AI_MODEL, MAX_HISTORY
 from ollama import chat
-from app.logger import log
+from app.logger import log, warning, success, errors
 import json
 import time
 import re
@@ -48,9 +48,9 @@ def ask_ai(question):
 
     end = time.time()
     
-    print(f"{answer}")
+    log(f"{answer}")
 
-    print(f"AI took {end-start:.2f} seconds")
+    warning(f"AI took {end-start:.2f} seconds")
 
     return answer
 
@@ -184,13 +184,13 @@ Any other response is incorrect.
         messages=memory_messages
     )
     try:
-        print(response.message.content)
+        log(response.message.content)
 
         data = parse_json_response(response.message.content)
 
         return data
     
     except Exception as e:
-        log(f"Memory extraction error: {e}")
+        errors(f"Memory extraction error: {e}")
         return {}
 

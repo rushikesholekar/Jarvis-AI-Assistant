@@ -1,6 +1,6 @@
 import subprocess
 
-from app.logger import log
+from app.logger import log, success, warning, errors
 from core.speak import speak
 
 APPLICATIONS = (
@@ -25,7 +25,7 @@ def handle_apps(command: str) -> bool:
         try:
             subprocess.Popen(executable)
         except FileNotFoundError:
-            log(f"{name} was not found on this computer.")
+            errors(f"{name} was not found on this computer.")
             speak(f"I could not find {name} on this computer.")
         return True
 

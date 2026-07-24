@@ -9,6 +9,7 @@ from openwakeword.model import Model
 from app.config import WAKE_WORD_MODEL_PATH, WAKE_WORD_THRESHOLD
 from core.audio_manager import clear_queue, get_chunk, start
 from core.speak import speak
+from app.logger import log, warning, success, errors, listening
 
 _model: Model | None = None
 
@@ -36,7 +37,7 @@ def wait_for_wakeword() -> None:
     start()
     model = _get_model()
     
-    print("Listening for the Jarvis wake word...")
+    listening("Listening for the Jarvis wake word...")
 
     while True:
         audio = np.squeeze(get_chunk())
@@ -47,7 +48,7 @@ def wait_for_wakeword() -> None:
         score = float(next(iter(predictions.values())))
 
         if score >= WAKE_WORD_THRESHOLD:
-            print("Wake word detected.")
+            success("Wake word detected.")
             model.reset() 
             clear_queue()
             speak("Yes?")

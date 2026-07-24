@@ -1,6 +1,7 @@
 from features.weather import get_weather
 from core.speak import speak
 from app.config import DEFAULT_CITY
+from app.logger import log
 
 def handle_weather(command):
     if "weather" in command or "climate" in command or "temperature" in command:
@@ -14,7 +15,6 @@ def handle_weather(command):
         else:
             city = DEFAULT_CITY
         weather = get_weather(city)
-
         speak(weather)
 
         return True

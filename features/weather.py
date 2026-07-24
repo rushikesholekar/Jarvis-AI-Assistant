@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 import requests
-from app.logger import log
+from app.logger import log, warning, success, errors
 
 load_dotenv()
 def get_weather(city):
@@ -35,5 +35,5 @@ def get_weather(city):
         return weather
 
     except Exception as e:
-        print(f"Weather error = {e}")
+        errors(f"Weather error = {e}")
         return("Sorry sir, I couldn't get the weather right now.")

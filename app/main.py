@@ -1,4 +1,4 @@
-from app.logger import log
+from app.logger import log, success, warning, errors
 from commands import execute
 from core.speak import speak
 from datetime import datetime
@@ -53,11 +53,11 @@ def startup_screen():
 def greet() -> None:
     hour = datetime.now().hour
     if 5 <= hour < 12:
-        speak("Good morning. I am Jarvis. How can I help?")
+        speak("Good morning, I am Jarvis. How can I help you?")
     elif 12 <= hour < 17:
-        speak("Good afternoon. I am Jarvis. How can I help?")
+        speak("Good afternoon, I am Jarvis. How can I help you?")
     else:
-        speak("Good evening. I am Jarvis. How can I help?")
+        speak("Good evening, I am Jarvis. How can I help you?")
 
 
 def run() -> None:
@@ -73,15 +73,15 @@ def run() -> None:
             if command:
                 execute(command)
         except TimeoutError:
-            log("No speech detected; returning to wake-word mode.")
+            errors("No speech detected; returning to wake-word mode.")
         except WakeWordConfigurationError as error:
-            log(str(error))
+            errors(str(error))
             break
         except KeyboardInterrupt:
-            print("\nJarvis stopped.")
+            errors("\nJarvis stopped.")
             break
         except Exception as error:
-            log(f"Voice pipeline error: {error}")
+            errors(f"Voice pipeline error: {error}")
             speak("I had a voice-system error. Please try again.")
 
 

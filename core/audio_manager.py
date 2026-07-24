@@ -6,6 +6,8 @@ import queue
 
 import sounddevice as sd
 
+from app.logger import log, success, warning, errors, listening
+
 from app.config import BLOCK_SIZE, MIC_DEVICE, SAMPLE_RATE
 
 CHANNELS = 1
@@ -16,7 +18,7 @@ _stream: sd.InputStream | None = None
 def audio_callback(indata, frames, time, status):
 
     if status:
-        print(f"Audio status: {status}")
+        errors(f"Audio status: {status}")
 
     try:
         audio_queue.put_nowait(indata.copy())

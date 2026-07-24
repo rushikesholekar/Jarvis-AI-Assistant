@@ -1,7 +1,7 @@
 import webbrowser
 from urllib.parse import quote
 from core.speak import speak
-from app.logger import log
+from app.logger import log, success, warning, errors
 
 def handle_browser(command: str) -> bool:
     if "search" in command:

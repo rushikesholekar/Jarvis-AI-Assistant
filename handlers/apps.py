@@ -30,3 +30,8 @@ def handle_apps(command: str) -> bool:
         return True
 
     return False
+
+from core.registry import HANDLERS, PluginHandler
+from core.intents import Intent
+
+HANDLERS.append(PluginHandler(name="apps",intent=Intent.APPLICATION, handler=handle_apps))

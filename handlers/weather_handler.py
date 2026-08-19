@@ -20,3 +20,8 @@ def handle_weather(command):
         return True
     
     return False
+
+from core.registry import PluginHandler, HANDLERS
+from core.intents import Intent
+
+HANDLERS.append(PluginHandler(name="weather",intent=Intent.WEATHER, handler=handle_weather))

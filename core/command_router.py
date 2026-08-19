@@ -15,7 +15,13 @@ from handlers.datetime_handler import handle_datetime
 from handlers.memory_handler import handle_memory
 from handlers.weather_handler import handle_weather
 from utils.text_utils import normalize_command
+from core.registry import HANDLERS
+import importlib
+import pkgutil
+import handlers
 
+for _, module_name, _ in pkgutil.iter_modules(handlers.__path__, prefix="handlers."):
+    importlib.import_module(module_name)
 
 THINKING_RESPONSES = (
     "Thinking.",
@@ -37,15 +43,10 @@ def route_command(raw_command: str) -> RouteResult:
     if command in NOISE_COMMANDS:
         return RouteResult(Intent.IGNORED, command)
 
-    for intent, handler in (
-        (Intent.APPLICATION, handle_apps),
-        (Intent.BROWSER, handle_browser),
-        (Intent.DATE_TIME, handle_datetime),
-        (Intent.WEATHER, handle_weather),
-    ):
-        if handler(command):
-            log(f"Routed command to {intent.value}")
-            return RouteResult(intent, command)
+    for plugin in HANDLERS:
+        if plugin.handler(command):
+            log(f"Routed command to {plugin.intent.value}")
+            return RouteResult(plugin.intent, command)
 
     if command == "hello":
         response = "Hello. How can I help?"

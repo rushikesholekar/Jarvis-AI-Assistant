@@ -38,3 +38,8 @@ def handle_datetime(command):
         speak(f"Today is {day_string}")
         return True
     return False
+
+from core.registry import HANDLERS, PluginHandler
+from core.intents import Intent
+
+HANDLERS.append(PluginHandler(name="datetime",intent=Intent.DATE_TIME, handler=handle_datetime))

@@ -46,3 +46,8 @@ def handle_browser(command: str) -> bool:
         webbrowser.open("https://www.chatgpt.com")
         return True
     return False
+
+from core.registry import HANDLERS, PluginHandler
+from core.intents import Intent
+
+HANDLERS.append(PluginHandler(name ="browser",intent=Intent.BROWSER, handler=handle_browser))

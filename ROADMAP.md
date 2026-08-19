@@ -18,8 +18,8 @@
 ## Automation
 
 - [ ] Improved desktop automation
-- [ ] Plugin architecture
-- [ ] Better command routing
+- [x] Plugin architecture
+- [x] Better command routing
 - [ ] Calendar & reminder support
 
 ---

@@ -46,8 +46,7 @@ Transform Jarvis from a voice automation assistant into a smarter AI companion.
 | Memory System | ████████░░ 80% |
 | Weather Module | ████████░░ 80% |
 | AI Integration | ███████░░░ 70% |
-| Plugin System | ██░░░░░░░░ 20% |
-
+| Plugin System | ██████░░░░ 60% |
 ---
 
 # 🏆 Completed Milestones
@@ -63,6 +62,7 @@ Transform Jarvis from a voice automation assistant into a smarter AI companion.
 - ✅ Weather Commands
 - ✅ Memory System
 - ✅ Ollama Integration
+- ✅ Self-Registering Plugin Architecture
 
 ---
 
@@ -96,4 +96,4 @@ Current Focus
 
 Completion
 
-10%
+25%

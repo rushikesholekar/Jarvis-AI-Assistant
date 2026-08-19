@@ -1,5 +1,6 @@
 from app.logger import log, success, warning, errors
 from commands import execute
+import traceback
 from core.speak import speak
 from datetime import datetime
 from core.transcribe import transcribe
@@ -82,6 +83,9 @@ def run() -> None:
             break
         except Exception as error:
             errors(f"Voice pipeline error: {error}")
+
+            log(traceback.format_exc())
+
             speak("I had a voice-system error. Please try again.")
 
 
